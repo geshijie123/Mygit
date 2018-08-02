@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.chenlin.dp.modules.wx.dao.UserMapper">
+	
+	<select id="listForPage" resultType="net.chenlin.dp.modules.wx.entity.UserEntity">
+		SELECT
+			`id`, 
+			`name`, 
+			`pwd`, 
+			`date`, 
+			`res`
+		FROM
+			user
+		ORDER BY
+			id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO user (
+			`id`, 
+			`name`, 
+			`pwd`, 
+			`date`, 
+			`res`
+		)
+		VALUES (
+			#{id}, 
+			#{name}, 
+			#{pwd}, 
+			#{date}, 
+			#{res}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="net.chenlin.dp.modules.wx.entity.UserEntity">
+		SELECT
+			`id`, 
+			`name`, 
+			`pwd`, 
+			`date`, 
+			`res`
+		FROM
+			user
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE user
+	 	<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="pwd != null">`pwd` = #{pwd}, </if>
+			<if test="date != null">`date` = #{date}, </if>
+			<if test="res != null">`res` = #{res}</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			user
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
